@@ -24,4 +24,4 @@ RUN npm ci --omit=dev && npm install -g serve
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "serve dist -l ${PORT:-3000}"]
+CMD ["sh", "-c", "PORT=${PORT:=3000}; exec serve dist -l 0.0.0.0:$PORT"]
