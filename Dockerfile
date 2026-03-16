@@ -20,8 +20,8 @@ ENV PORT=3000
 COPY --from=builder /app/dist ./dist
 COPY package.json package-lock.json* ./
 
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev && npm install -g serve
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "exec ./node_modules/.bin/serve dist -l ${PORT:-3000}"]
+CMD ["sh", "-c", "serve dist -l ${PORT:-3000}"]
