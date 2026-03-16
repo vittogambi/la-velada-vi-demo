@@ -9,7 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "start": "serve dist -l ${PORT:-3000}",
+    "start": "node server.js",
     "lint": "eslint --ext .astro .",
     "lint:fix": "eslint --ext .astro --fix ."
   },
@@ -20,7 +20,6 @@
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^5.18.0",
     "canvas-confetti": "^1.9.4",
-    "serve": "^14.2.4",
     "tailwindcss": "^4.2.1"
   },
   "devDependencies": {
