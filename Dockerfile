@@ -24,4 +24,4 @@ RUN npm ci --omit=dev
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "npx serve dist -l ${PORT:-3000}"]
+CMD ["sh", "-c", "exec ./node_modules/.bin/serve dist -l ${PORT:-3000}"]
