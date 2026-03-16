@@ -1,0 +1,27 @@
+# build
+dist/
+.astro/
+.vercel
+.output
+
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# env
+.env
+.env.*
+
+# ide
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.swp
+*.swo
+.DS_Store
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*

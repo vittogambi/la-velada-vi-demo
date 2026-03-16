@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0a1024;
+  --color-gold: #c9a227;
+  --color-silver: #c0c0c0;
+  --font-cinzel: "Cinzel", serif;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: #fff;
+  font-family: var(--font-cinzel), serif;
+}

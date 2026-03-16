@@ -1,0 +1,109 @@
+---
+const combates = [
+  { id: '1', luchador1: 'Ibai', luchador2: 'Rival A', votes1: 0, votes2: 0 },
+  { id: '2', luchador1: 'Streamer 1', luchador2: 'Streamer 2', votes1: 0, votes2: 0 },
+  { id: '3', luchador1: 'Streamer 3', luchador2: 'Streamer 4', votes1: 0, votes2: 0 },
+];
+const combatesJson = JSON.stringify(combates);
+---
+
+<section class="py-12 px-6">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="text-xl sm:text-2xl text-[#c9a227] font-semibold mb-8 text-center tracking-wider">Predicciones</h2>
+    <p class="text-[#c0c0c0] text-sm text-center mb-8">Vota y participa. Los votos se guardan localmente.</p>
+    <div id="predictions-root" class="space-y-6" data-combates={combatesJson}></div>
+  </div>
+</section>
+
+<script>
+  import confetti from 'canvas-confetti';
+
+  const STORAGE_KEY = 'la-velada-vi-predictions';
+
+  type Combate = { id: string; luchador1: string; luchador2: string; votes1: number; votes2: number };
+
+  function load(): Combate[] {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch {}
+    const root = document.getElementById('predictions-root');
+    const data = root?.dataset.combates;
+    return data ? JSON.parse(data) : [];
+  }
+
+  function save(combates: Combate[]) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(combates));
+  }
+
+  function fireConfetti() {
+    confetti({
+      particleCount: 80,
+      spread: 60,
+      origin: { y: 0.6 },
+      colors: ['#c9a227', '#c0c0c0', '#fff'],
+    });
+  }
+
+  function renderCard(c: Combate) {
+    const total = c.votes1 + c.votes2 || 1;
+    const pct1 = Math.round((c.votes1 / total) * 100);
+    const pct2 = Math.round((c.votes2 / total) * 100);
+
+    return `
+      <article class="bg-[#0f1629] border border-[#1e2a4a] rounded-lg p-6" data-id="${c.id}">
+        <h3 class="text-lg font-semibold text-white mb-4 text-center">${c.luchador1} vs ${c.luchador2}</h3>
+        <div class="flex gap-4 mb-4">
+          <button
+            class="flex-1 py-3 px-4 rounded-lg bg-[#1e2a4a] hover:bg-[#2a3a5a] text-white font-semibold transition-colors"
+            data-combate="${c.id}"
+            data-vote="1"
+          >
+            ${c.luchador1}
+          </button>
+          <button
+            class="flex-1 py-3 px-4 rounded-lg bg-[#1e2a4a] hover:bg-[#2a3a5a] text-white font-semibold transition-colors"
+            data-combate="${c.id}"
+            data-vote="2"
+          >
+            ${c.luchador2}
+          </button>
+        </div>
+        <div class="h-2 bg-[#1e2a4a] rounded-full overflow-hidden flex">
+          <div
+            class="h-full bg-[#c9a227] transition-all duration-500"
+            style="width: ${pct1}%"
+          ></div>
+          <div
+            class="h-full bg-[#c0c0c0] transition-all duration-500"
+            style="width: ${pct2}%"
+          ></div>
+        </div>
+        <p class="text-xs text-[#c0c0c0] mt-2 text-center">${c.votes1} - ${c.votes2} votos</p>
+      </article>
+    `;
+  }
+
+  function render() {
+    const root = document.getElementById('predictions-root');
+    if (!root) return;
+    const combates = load();
+    root.innerHTML = combates.map(renderCard).join('');
+    root.querySelectorAll('button[data-vote]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-combate') ?? '';
+        const vote = btn.getAttribute('data-vote') === '1' ? 'votes1' : 'votes2';
+        const combates = load();
+        const c = combates.find((x) => x.id === id);
+        if (c) {
+          (c as Record<string, number>)[vote]++;
+          save(combates);
+          fireConfetti();
+          render();
+        }
+      });
+    });
+  }
+
+  render();
+</script>

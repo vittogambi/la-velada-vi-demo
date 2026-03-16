@@ -1,0 +1,30 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'La Velada del Año VI', description = 'Evento de boxeo entre streamers organizado por Ibai Llanos — 25 de julio de 2026, Cartuja de Sevilla' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0a1024" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
+    <ViewTransitions />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,57 @@
+---
+const TARGET = new Date('2026-07-25T21:00:00+02:00');
+---
+
+<div class="py-12 px-6">
+  <section class="max-w-2xl mx-auto text-center">
+    <h2 class="text-xl sm:text-2xl text-[#c9a227] font-semibold mb-8 tracking-wider">Cuenta atrás</h2>
+    <div id="countdown" class="grid grid-cols-4 gap-4 sm:gap-6" role="timer" aria-live="polite">
+      <div class="bg-[#0f1629] border border-[#1e2a4a] rounded-lg p-4 sm:p-6">
+        <span id="days" class="block text-3xl sm:text-4xl md:text-5xl font-bold text-white">--</span>
+        <span class="text-xs sm:text-sm text-[#c0c0c0] uppercase tracking-wider">Días</span>
+      </div>
+      <div class="bg-[#0f1629] border border-[#1e2a4a] rounded-lg p-4 sm:p-6">
+        <span id="hours" class="block text-3xl sm:text-4xl md:text-5xl font-bold text-white">--</span>
+        <span class="text-xs sm:text-sm text-[#c0c0c0] uppercase tracking-wider">Horas</span>
+      </div>
+      <div class="bg-[#0f1629] border border-[#1e2a4a] rounded-lg p-4 sm:p-6">
+        <span id="minutes" class="block text-3xl sm:text-4xl md:text-5xl font-bold text-white">--</span>
+        <span class="text-xs sm:text-sm text-[#c0c0c0] uppercase tracking-wider">Min</span>
+      </div>
+      <div class="bg-[#0f1629] border border-[#1e2a4a] rounded-lg p-4 sm:p-6">
+        <span id="seconds" class="block text-3xl sm:text-4xl md:text-5xl font-bold text-white">--</span>
+        <span class="text-xs sm:text-sm text-[#c0c0c0] uppercase tracking-wider">Seg</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script define:vars={{ TARGET }}>
+  const target = new Date(TARGET);
+
+  function update() {
+    const now = new Date();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      document.getElementById('days').textContent = '0';
+      document.getElementById('hours').textContent = '0';
+      document.getElementById('minutes').textContent = '0';
+      document.getElementById('seconds').textContent = '0';
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('days').textContent = String(days).padStart(2, '0');
+    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+  }
+
+  update();
+  setInterval(update, 1000);
+</script>
