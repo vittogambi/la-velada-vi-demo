@@ -8,6 +8,9 @@ interface Props {
 }
 
 const { title = 'La Velada del Año VI', description = 'Evento de boxeo entre streamers organizado por Ibai Llanos — 25 de julio de 2026, Cartuja de Sevilla' } = Astro.props;
+
+const siteUrl = (typeof Astro.site === 'string' ? Astro.site : Astro.site?.href) ?? 'https://la-velada-vi-demo.up.railway.app';
+const ogImage = `${siteUrl.replace(/\/$/, '')}/images/logo.avif`;
 ---
 
 <!doctype html>
@@ -17,14 +20,53 @@ const { title = 'La Velada del Año VI', description = 'Evento de boxeo entre st
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0a1024" />
-    <link rel="icon" href="/favicon.ico" sizes="48x48" type="image/x-icon" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.svg" sizes="any" />
+    <link rel="apple-touch-icon" href="/images/logo.avif" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <ViewTransitions />
     <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Event",
+      "name": "La Velada del Año VI",
+      "description": description,
+      "startDate": "2026-07-25T20:00:00+02:00",
+      "endDate": "2026-07-26T02:00:00+02:00",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "location": {
+        "@type": "Place",
+        "name": "Estadio de La Cartuja",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Sevilla",
+          "addressCountry": "ES"
+        }
+      },
+      "organizer": {
+        "@type": "Person",
+        "name": "Ibai Llanos"
+      },
+      "image": ogImage,
+      "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/SoldOut",
+        "price": "0",
+        "priceCurrency": "EUR"
+      }
+    })} />
   </head>
   <body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#c9a227] focus:text-[#0a1024] focus:rounded-lg focus:text-sm focus:font-semibold">
+      Saltar al contenido principal
+    </a>
     <slot />
   </body>
 </html>

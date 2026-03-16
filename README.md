@@ -1,49 +1,73 @@
-# La Velada VI — Demo
+# La Velada del Año VI — Demo
 
-Mini-proyecto interactivo construido con el mismo stack que la web oficial de La Velada del Año VI.
+Demo interactiva de la web de La Velada del Año VI, construida como candidatura de desarrollador para el evento de Ibai Llanos a través de InfoJobs + Midudev.
 
-**Stack:** Astro 5.18 · Tailwind CSS 4.2 · TypeScript · View Transitions API · canvas-confetti · Railway
+## Por qué esta demo destaca
 
-## Contenido
+- **Sistema de predicciones interactivo** — vota por combate, confetti al votar, persistencia en localStorage, botón de compartir en Twitter/X y portapapeles.
+- **10 combates reales** — cartelera completa con descripciones, tags (Periodismo, Femenino, Trap, Main Event...) y acordeón con transición suave.
+- **Diseño fiel al original** — logo, countdown en tiempo real, "Entradas agotadas", redes sociales, patrocinio InfoJobs.
+- **Animaciones de entrada** — staggered fadeInUp en el hero, partículas doradas CSS, scroll reveal en combates via IntersectionObserver.
+- **SEO y Open Graph** — meta tags, JSON-LD schema Event, favicon SVG, apple-touch-icon.
+- **Accesibilidad** — skip-to-content link, aria-expanded, aria-live, role="timer".
+- **Mismo stack que la web oficial** — Astro 5, Tailwind CSS 4, View Transitions API, TypeScript.
 
-- Hero con branding La Velada VI
-- Countdown interactivo al 25 de julio de 2026
-- Sección de predicciones con votación local (localStorage) y confetti
-- View Transitions entre navegación
-- Tipografía Cinzel y paleta oficial (#0a1024, #c9a227, #c0c0c0)
+## Stack
 
-## Desarrollo
+| Tecnología | Versión |
+|------------|---------|
+| [Astro](https://astro.build) | 5.18 |
+| [Tailwind CSS](https://tailwindcss.com) | 4.2 |
+| TypeScript | 5.7 |
+| [canvas-confetti](https://www.npmjs.com/package/canvas-confetti) | 1.9 |
+| View Transitions API | nativo |
+
+## Desarrollo local
 
 ```bash
+# Instalar dependencias
 npm install
+
+# Servidor de desarrollo (http://localhost:4321)
 npm run dev
-```
 
-## Build
-
-```bash
+# Build de producción
 npm run build
+
+# Preview de la build
+npm run preview
 ```
 
-## Deploy en Railway
+## Estructura del proyecto
 
-1. Sube el repo a GitHub
-2. Ve a [railway.app](https://railway.app) y crea un nuevo proyecto
-3. Conecta el repo de GitHub
-4. Railway detecta automáticamente el build (`npm run build`) y el start (`serve dist`)
-5. Asigna un dominio en la pestaña Settings del servicio
+```
+src/
+├── components/
+│   ├── Hero.astro          # Logo, countdown, partículas, entradas agotadas
+│   ├── Combates.astro      # Cartelera con VS layout, tags, acordeón
+│   ├── Predictions.astro   # Votación interactiva con confetti y share
+│   └── Footer.astro        # Redes sociales, InfoJobs, créditos
+├── layouts/
+│   └── Layout.astro        # Head, OG tags, JSON-LD, fonts
+├── pages/
+│   └── index.astro         # Página principal
+└── styles/
+    └── global.css          # Tailwind, animaciones, scrollbar custom
+```
 
-O con la CLI:
+## Deploy
+
+El proyecto está configurado para Railway (static output con `serve`), pero funciona en cualquier hosting estático:
 
 ```bash
-npm i -g @railway/cli
-railway login
-railway init
-railway up
+npm run build   # genera dist/
+npx serve dist  # sirve en localhost:3000
 ```
+
+Compatible con Vercel, Netlify, Cloudflare Pages o cualquier CDN.
 
 ## Autor
 
-Vittorio Gambi — [vgdev14@gmail.com](mailto:vgdev14@gmail.com)
+**Vittorio Gambi** — [GitHub](https://github.com/vittogambi)
 
-Construido con el mismo stack que la web oficial de La Velada (midudev/la-velada-web-oficial).
+Demo para candidatura a desarrollador en La Velada del Año VI · InfoJobs + Midudev

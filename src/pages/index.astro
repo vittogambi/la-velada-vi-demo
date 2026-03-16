@@ -1,16 +1,27 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
-import Countdown from '../components/Countdown.astro';
+import Stats from '../components/Stats.astro';
+import Combates from '../components/Combates.astro';
 import Predictions from '../components/Predictions.astro';
+import Venue from '../components/Venue.astro';
+import WhereToWatch from '../components/WhereToWatch.astro';
 import Footer from '../components/Footer.astro';
 ---
 
 <Layout>
-  <main class="min-h-screen">
+  <main id="main-content" class="min-h-screen noise-bg">
     <Hero />
-    <Countdown />
+    <Stats />
+    <div class="section-divider"></div>
+    <Combates />
+    <div class="section-divider"></div>
     <Predictions />
+    <div class="section-divider"></div>
+    <Venue />
+    <div class="section-divider"></div>
+    <WhereToWatch />
+    <div class="section-divider"></div>
     <Footer />
   </main>
 </Layout>

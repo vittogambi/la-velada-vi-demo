@@ -1,0 +1,199 @@
+---
+const combates = [
+  {
+    id: '1',
+    luchador1: 'Edu Aguirre',
+    pais1: '🇪🇸',
+    luchador2: 'Gastón Edul',
+    pais2: '🇦🇷',
+    tags: ['Periodismo'],
+    descripcion: 'El mundo del periodismo deportivo se enfrenta de pleno con la llegada de estos dos profesionales a La Velada del Año. Mientras que Edu forma parte de El Chiringuito, Gastón es un conocido integrante de ESPN Argentina. "Me apetece, además de la pelea, todo el proceso de estar entrenando y cuidar al 100%", declaraba Edu Aguirre. "A Cristiano Ronaldo le ha molado. Me dijo que lo aplastara". El argentino será un duro rival, ya que ambos se encuentran en un envergadura muy similar; apenas una diferencia de 2 o 3 kilos.',
+  },
+  {
+    id: '2',
+    luchador1: 'Fabiana Sevillano',
+    pais1: '🇪🇸',
+    luchador2: 'La Parce',
+    pais2: '🇨🇴',
+    tags: ['Femenino', 'España vs Colombia'],
+    descripcion: 'España y Colombia se volverán a ver a través del primer combate femenino de la jornada. La influencer Fabiana Sevillano y la presidenta de la Queens League se enfrentarán cara a cara, manteniendo cierto pasado cercano. Además, se ha confirmado que Juan Guarnizo iba a ser participante del evento, pero que se bajó del mismo. "A tres semanas de la pelea, le dijo (a Pablo Vera, su ex) que no iba", contaba Fabiana Sevillano. Ambas mantienen una relación altura-peso similar, por lo que no habrá una gran diferencia como con Abby contra Roro.',
+  },
+  {
+    id: '3',
+    luchador1: 'Clersss',
+    pais1: '🇪🇸',
+    luchador2: 'Natalia MX',
+    pais2: '🇲🇽',
+    tags: ['Femenino', 'Streamers'],
+    descripcion: 'El segundo combate femenino de la noche ha puesto en el ring a la streamer Natalia MX contra la creadora de contenido española Clersss. "Llevo cuatro meses tomándome el entrenamiento en serio", declaraba esta última. "Gimnasio de forma constante llevo casi 2 años y boxeo dos o tres semanas", respondía su rival. Entre ambas hay un desequilibrio de peso de 7 kilos (la española por encima), aunque ambas mantienen una constitución parecida, por lo que se podrá llegar a un punto medio.',
+  },
+  {
+    id: '4',
+    luchador1: 'Lit Killah',
+    pais1: '🇦🇷',
+    luchador2: 'Kidd Keo',
+    pais2: '🇪🇸',
+    tags: ['Trap', 'Música'],
+    descripcion: 'Según Ibai Llanos, "uno de los combates más extraños del evento" no es otro que el del cantante argentino Lit Killah contra el español Kidd Keo. Ibai Llanos ha confesado que el segundo quería participar desde ediciones anteriores. "Desde hace un tiempo, di un cambio en mi vida y esta es la resolución", declaraba el trapero que ya lleva más de un año entrenando. "Siempre ví La Velada como espectador o cerca de amigos y quería hacerlo", confesaba el argentino que, además, se ha comprometido a bajar peso para sortear la diferencia entre ambos.',
+  },
+  {
+    id: '5',
+    luchador1: 'Alondrissa',
+    pais1: '🇵🇷',
+    luchador2: 'Angie Velasco',
+    pais2: '🇦🇷',
+    tags: ['Femenino', 'Puerto Rico vs Argentina'],
+    descripcion: 'Puerto Rico y Argentina se enfrentan en el tercer combate femenino de la Velada del Año 6. Ambas amigas y creadoras de contenido, Alondrissa y Angie Velasco buscaban desde hace tiempo formar parte del evento de boxeo. "Esto es una vez en la vida", respondía la primera.',
+  },
+  {
+    id: '6',
+    luchador1: 'Viruzz',
+    pais1: '🇪🇸',
+    luchador2: 'Gero Arias',
+    pais2: '🇦🇷',
+    tags: ['Streamers'],
+    descripcion: 'Se confirma uno de los combates más rumoreados durante los próximos meses. Viruzz vuelve al ring para enfrentarse al argentino Gero Arias después de que este último lo retara y ganase a Thomas Mazza en Párense de Manos 3. "Se le va a acabar la racha", declaraba Gero. "Yo quería proponer hacer seis rounds", añadía; algo a lo que Viruzz ha respondido que tiene que consultar con el equipo técnico. El argentino se muestra confiado e incluso ha declarado que su sueño es ganar en los próximos Juegos Olímpicos de 2028, aunque el español mantiene más experiencia en el boxeo y también en La Velada.',
+  },
+  {
+    id: '7',
+    luchador1: 'Sami Rivers',
+    pais1: '🇪🇸',
+    luchador2: 'Roro',
+    pais2: '🇪🇸',
+    tags: ['Femenino', 'Main Event Femenino'],
+    mainEvent: true,
+    descripcion: 'Anunciado como el main event femenino. Tanto Sami Rivers como Roro repiten en esta edición para formar parte de uno de los combates más inesperados de la noche. En esta ocasión, ambas mantienen igualdad de condiciones, al contrario que en sus encuentros anteriores. "No me quedé satisfecha con La Velada del año pasado y voy a intentarlo hasta que lo consiga", declaraba Roro.',
+  },
+  {
+    id: '8',
+    luchador1: 'Marta Díaz',
+    pais1: '🇪🇸',
+    luchador2: 'Tatiana Kaer',
+    pais2: '🇻🇪',
+    tags: ['Influencers'],
+    descripcion: 'El mundo de las influencers se encuentra en el combate de Marta Díaz contra Tatiana Kaer. La primera confesaba que esta era su segunda oportunidad, ya que iba a participar en ediciones pasadas, pero no pudo por una lesión. "No solamente es un reto personal, pero además el haber superado ese momento complicado de mi vida", explicaba la primera. "Yo ya quería venir el año pasado", confesaba la segunda. Ambas pesan y miden exactamente lo mismo.',
+  },
+  {
+    id: '9',
+    luchador1: 'Plex',
+    pais1: '🇪🇸',
+    luchador2: 'Fernanfloo',
+    pais2: '🇸🇻',
+    tags: ['Main Event'],
+    mainEvent: true,
+    descripcion: 'Y llegó la hora de anunciar el primer main event masculino de La Velada del Año 6. YoSoyPlex y Fernanfloo repiten en la casa de Ibai Llanos para tratar de hacerse de nuevo con una victoria. "Nunca digas nunca y aquí estoy de nuevo", anunciaba el español. "He visto la pelea de Plex y por eso he aceptado", confesaba Fernanfloo, que además opina que su rival estuvo flojo en el pasado. "Lo veía robot. Que tengas más músculos que yo no significa que me ganes". El español ha propuesto pelear con casco olímpico y con guantes de 14 onzas, algo que su rival no ha acabado de aceptar, sobre todo por el primer motivo. "Lo dice porque quiere quedar bien en las fotos de Instagram".',
+  },
+  {
+    id: '10',
+    luchador1: 'Illojuan',
+    pais1: '🇪🇸',
+    luchador2: 'TheGrefg',
+    pais2: '🇪🇸',
+    tags: ['Main Event'],
+    mainEvent: true,
+    descripcion: 'Y llegó el momento de uno de los combates más grandes de la noche. La sorpresa ha sido el anuncio de IlloJuan como participante de la sexta edición, que se enfrentará a TheGrefg. "He salido de un bache haciendo deporte y surgió la conversación. Lo hago con mucha ilusión. TheGrefg no me cae mal, pero si le tengo que pegar, le voy a pegar", declaraba el malagueño. "Es un reto más difícil, yo cuento con la experiencia del año pasado", respondía el rival. IlloJuan ha revelado que lleva mes y medio de mucha intensidad entrenando boxeo, aunque un año de gimnasio. "Ha sido un secreto que he llevado regular, porque se ha filtrado por todos lados".',
+  },
+];
+---
+
+<section class="py-16 px-6 section-glow" id="combates">
+  <div class="max-w-3xl mx-auto relative z-10">
+    <h2 class="text-2xl sm:text-3xl text-[#c9a227] font-bold mb-2 text-center tracking-wider" style="font-family: 'Cinzel', serif;">COMBATES</h2>
+    <p class="text-[#c0c0c0] text-sm text-center mb-12">La Velada del Año VI · 10 peleas en la Cartuja</p>
+    
+    <div class="space-y-5">
+      {combates.map((c, idx) => (
+        <article
+          class="combate-card group rounded-xl overflow-hidden transition-all duration-300 opacity-0 translate-y-6"
+          class:list={[
+            c.mainEvent ? 'card-main-event' : 'card-glass',
+          ]}
+          data-combate={c.id}
+          data-open="false"
+        >
+          <div class="flex flex-wrap items-center gap-2 px-4 pt-3 pb-1">
+            <span class="text-xs font-semibold text-[#c9a227]/80 uppercase tracking-wider">Combate {idx + 1}</span>
+            {c.tags.map((tag) => (
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#1e2a4a] text-[#c0c0c0] border border-[#2a3a5a]">
+                {tag}
+              </span>
+            ))}
+          </div>
+          <button
+            type="button"
+            class="w-full py-4 px-6 flex items-center justify-between gap-4 sm:gap-6"
+            aria-expanded="false"
+            aria-controls={`desc-${c.id}`}
+            data-toggle
+          >
+            <div class="flex-1 min-w-0 text-left">
+              <span class="text-base sm:text-lg font-bold text-white block truncate" style="font-family: 'Cinzel', serif;"><span class="mr-1.5">{c.pais1}</span>{c.luchador1}</span>
+            </div>
+            <div class:list={[
+              "shrink-0 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-[#c9a227]",
+              c.mainEvent ? 'bg-[#c9a227]/10 shadow-[0_0_20px_rgba(201,162,39,0.2)]' : 'bg-[#0f1629]'
+            ]}>
+              <span class="text-sm sm:text-base font-black text-[#c9a227]" style="font-family: 'Inter', system-ui, sans-serif;">VS</span>
+            </div>
+            <div class="flex-1 min-w-0 text-right">
+              <span class="text-base sm:text-lg font-bold text-white block truncate" style="font-family: 'Cinzel', serif;">{c.luchador2}<span class="ml-1.5">{c.pais2}</span></span>
+            </div>
+            <svg class="w-5 h-5 text-[#c9a227] shrink-0 transition-transform duration-300 group-data-[open]:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div
+            id={`desc-${c.id}`}
+            class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out data-[open]:grid-rows-[1fr]"
+            data-content
+          >
+            <div class="overflow-hidden">
+              <div class="border-t border-[#1e2a4a] p-6 pt-4">
+                <p class="text-[#c0c0c0] text-sm leading-relaxed">{c.descripcion}</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[data-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const article = btn.closest('article');
+      const content = article?.querySelector('[data-content]');
+      const isOpen = article?.getAttribute('data-open') === 'true';
+
+      document.querySelectorAll('[data-content]').forEach((el) => {
+        el.removeAttribute('data-open');
+      });
+      document.querySelectorAll('article[data-combate]').forEach((a) => {
+        a.setAttribute('data-open', 'false');
+      });
+
+      if (!isOpen && content && article) {
+        content.setAttribute('data-open', '');
+        article.setAttribute('data-open', 'true');
+      }
+    });
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          el.style.animationDelay = `${i * 0.05}s`;
+          el.classList.add('animate-fade-in-up');
+          el.classList.remove('opacity-0', 'translate-y-6');
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
+  );
+  document.querySelectorAll('.combate-card').forEach((card) => observer.observe(card));
+</script>

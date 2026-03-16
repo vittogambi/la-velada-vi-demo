@@ -1,17 +1,44 @@
 ---
 const combates = [
-  { id: '1', luchador1: 'Ibai', luchador2: 'Rival A', votes1: 0, votes2: 0 },
-  { id: '2', luchador1: 'Streamer 1', luchador2: 'Streamer 2', votes1: 0, votes2: 0 },
-  { id: '3', luchador1: 'Streamer 3', luchador2: 'Streamer 4', votes1: 0, votes2: 0 },
+  { id: '1', luchador1: 'Edu Aguirre', luchador2: 'Gastón Edul' },
+  { id: '2', luchador1: 'Fabiana Sevillano', luchador2: 'La Parce' },
+  { id: '3', luchador1: 'Clersss', luchador2: 'Natalia MX' },
+  { id: '4', luchador1: 'Lit Killah', luchador2: 'Kidd Keo' },
+  { id: '5', luchador1: 'Alondrissa', luchador2: 'Angie Velasco' },
+  { id: '6', luchador1: 'Viruzz', luchador2: 'Gero Arias' },
+  { id: '7', luchador1: 'Sami Rivers', luchador2: 'Roro' },
+  { id: '8', luchador1: 'Marta Díaz', luchador2: 'Tatiana Kaer' },
+  { id: '9', luchador1: 'Plex', luchador2: 'Fernanfloo' },
+  { id: '10', luchador1: 'Illojuan', luchador2: 'TheGrefg' },
 ];
-const combatesJson = JSON.stringify(combates);
+const combatesJson = JSON.stringify(combates.map((c) => ({ ...c, votes1: 0, votes2: 0 })));
 ---
 
-<section class="py-12 px-6">
-  <div class="max-w-2xl mx-auto">
-    <h2 class="text-xl sm:text-2xl text-[#c9a227] font-semibold mb-8 text-center tracking-wider">Predicciones</h2>
-    <p class="text-[#c0c0c0] text-sm text-center mb-8">Vota y participa. Los votos se guardan localmente.</p>
-    <div id="predictions-root" class="space-y-6" data-combates={combatesJson}></div>
+<section class="py-16 px-6 section-glow" id="predicciones">
+  <div class="max-w-3xl mx-auto relative z-10">
+    <h2 class="text-2xl sm:text-3xl text-[#c9a227] font-bold mb-2 text-center tracking-wider" style="font-family: 'Cinzel', serif;">PREDICCIONES</h2>
+    <p class="text-[#c0c0c0] text-sm text-center mb-4">Vota quién crees que ganará en cada combate. Tus votos se guardan localmente.</p>
+    <p id="total-votos" class="text-xs text-[#c0c0c0]/80 text-center mb-8">0 votos totales</p>
+    <div id="predictions-root" class="space-y-5" data-combates={combatesJson}></div>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <button
+        id="share-btn"
+        type="button"
+        class="px-4 py-2 rounded-lg bg-[#1e2a4a] hover:bg-[#2a3a5a] border border-[#c9a227]/40 text-[#c9a227] text-sm font-medium transition-colors"
+        style="font-family: 'Inter', system-ui, sans-serif;"
+      >
+        Copiar predicción
+      </button>
+      <button
+        id="share-twitter-btn"
+        type="button"
+        class="px-4 py-2 rounded-lg bg-[#1e2a4a] hover:bg-[#2a3a5a] border border-[#1d9bf0]/40 text-[#1d9bf0] text-sm font-medium transition-colors flex items-center gap-2"
+        style="font-family: 'Inter', system-ui, sans-serif;"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Compartir en X
+      </button>
+    </div>
   </div>
 </section>
 
@@ -19,10 +46,11 @@ const combatesJson = JSON.stringify(combates);
   import confetti from 'canvas-confetti';
 
   const STORAGE_KEY = 'la-velada-vi-predictions';
+  const PICKS_KEY = 'la-velada-vi-my-picks';
 
   type Combate = { id: string; luchador1: string; luchador2: string; votes1: number; votes2: number };
 
-  function load(): Combate[] {
+  function loadVotes(): Combate[] {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) return JSON.parse(raw);
@@ -32,8 +60,20 @@ const combatesJson = JSON.stringify(combates);
     return data ? JSON.parse(data) : [];
   }
 
-  function save(combates: Combate[]) {
+  function loadPicks(): Record<string, 1 | 2> {
+    try {
+      const raw = localStorage.getItem(PICKS_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch {}
+    return {};
+  }
+
+  function saveVotes(combates: Combate[]) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(combates));
+  }
+
+  function savePicks(picks: Record<string, 1 | 2>) {
+    localStorage.setItem(PICKS_KEY, JSON.stringify(picks));
   }
 
   function fireConfetti() {
@@ -45,65 +85,108 @@ const combatesJson = JSON.stringify(combates);
     });
   }
 
-  function renderCard(c: Combate) {
+  function renderCard(c: Combate, picked?: 1 | 2) {
     const total = c.votes1 + c.votes2 || 1;
     const pct1 = Math.round((c.votes1 / total) * 100);
     const pct2 = Math.round((c.votes2 / total) * 100);
+    const pick1 = picked === 1 ? ' border-2 border-[#c9a227] ring-2 ring-[#c9a227]/30' : '';
+    const pick2 = picked === 2 ? ' border-2 border-[#c9a227] ring-2 ring-[#c9a227]/30' : '';
+    const badge1 = picked === 1 ? '<span class="absolute -top-1 -right-1 px-1.5 py-0.5 text-[10px] font-bold uppercase bg-[#c9a227] text-[#0a1024] rounded">Tu predicción</span>' : '';
+    const badge2 = picked === 2 ? '<span class="absolute -top-1 -right-1 px-1.5 py-0.5 text-[10px] font-bold uppercase bg-[#c9a227] text-[#0a1024] rounded">Tu predicción</span>' : '';
 
     return `
-      <article class="bg-[#0f1629] border border-[#1e2a4a] rounded-lg p-6" data-id="${c.id}">
-        <h3 class="text-lg font-semibold text-white mb-4 text-center">${c.luchador1} vs ${c.luchador2}</h3>
-        <div class="flex gap-4 mb-4">
+      <article class="relative card-glass rounded-xl p-6 transition-all duration-300" data-id="${c.id}">
+        <h3 class="text-lg font-bold text-white mb-5 text-center" style="font-family: 'Cinzel', serif;">${c.luchador1} <span class="text-[#c9a227]">vs</span> ${c.luchador2}</h3>
+        <div class="flex gap-3 mb-4">
           <button
-            class="flex-1 py-3 px-4 rounded-lg bg-[#1e2a4a] hover:bg-[#2a3a5a] text-white font-semibold transition-colors"
+            class="relative flex-1 py-3 px-4 rounded-lg bg-[#1e2a4a]/80 hover:bg-[#2a3a5a] text-white font-semibold transition-all text-sm sm:text-base${pick1}"
             data-combate="${c.id}"
             data-vote="1"
-          >
-            ${c.luchador1}
-          </button>
+          >${badge1}${c.luchador1}</button>
           <button
-            class="flex-1 py-3 px-4 rounded-lg bg-[#1e2a4a] hover:bg-[#2a3a5a] text-white font-semibold transition-colors"
+            class="relative flex-1 py-3 px-4 rounded-lg bg-[#1e2a4a]/80 hover:bg-[#2a3a5a] text-white font-semibold transition-all text-sm sm:text-base${pick2}"
             data-combate="${c.id}"
             data-vote="2"
-          >
-            ${c.luchador2}
-          </button>
+          >${badge2}${c.luchador2}</button>
         </div>
-        <div class="h-2 bg-[#1e2a4a] rounded-full overflow-hidden flex">
-          <div
-            class="h-full bg-[#c9a227] transition-all duration-500"
-            style="width: ${pct1}%"
-          ></div>
-          <div
-            class="h-full bg-[#c0c0c0] transition-all duration-500"
-            style="width: ${pct2}%"
-          ></div>
+        <div class="h-1.5 bg-[#0a1024] rounded-full overflow-hidden flex">
+          <div class="h-full bg-gradient-to-r from-[#c9a227] to-[#e0c040] transition-all duration-500 rounded-l-full" style="width: ${pct1}%"></div>
+          <div class="h-full bg-gradient-to-r from-[#8a8a8a] to-[#c0c0c0] transition-all duration-500 rounded-r-full" style="width: ${pct2}%"></div>
         </div>
-        <p class="text-xs text-[#c0c0c0] mt-2 text-center">${c.votes1} - ${c.votes2} votos</p>
+        <div class="flex justify-between mt-2">
+          <span class="text-xs text-[#c9a227]">${pct1}%</span>
+          <span class="text-xs text-[#c0c0c0]">${c.votes1 + c.votes2} votos</span>
+          <span class="text-xs text-[#c0c0c0]">${pct2}%</span>
+        </div>
       </article>
     `;
+  }
+
+  function updateTotal(combates: Combate[]) {
+    const total = combates.reduce((s, c) => s + c.votes1 + c.votes2, 0);
+    const el = document.getElementById('total-votos');
+    if (el) el.textContent = total === 0 ? '0 votos totales' : `${total} votos totales`;
+  }
+
+  function sharePredictions(combates: Combate[], picks: Record<string, 1 | 2>) {
+    const lines = combates.map((c) => {
+      const pick = picks[c.id];
+      const winner = pick === 1 ? c.luchador1 : pick === 2 ? c.luchador2 : null;
+      return winner ? `${c.luchador1} vs ${c.luchador2} → ${winner}` : null;
+    }).filter(Boolean);
+    if (lines.length === 0) {
+      return 'Aún no has votado en ningún combate. ¡Vota y comparte!';
+    }
+    return `Mis predicciones para La Velada del Año VI:\n${lines.join('\n')}\n\n#LaVeladaVI`;
   }
 
   function render() {
     const root = document.getElementById('predictions-root');
     if (!root) return;
-    const combates = load();
-    root.innerHTML = combates.map(renderCard).join('');
+    const combates = loadVotes();
+    const picks = loadPicks();
+    root.innerHTML = combates.map((c) => renderCard(c, picks[c.id])).join('');
+    updateTotal(combates);
+
     root.querySelectorAll('button[data-vote]').forEach((btn) => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-combate') ?? '';
-        const vote = btn.getAttribute('data-vote') === '1' ? 'votes1' : 'votes2';
-        const combates = load();
+        const vote = (btn.getAttribute('data-vote') === '1' ? 1 : 2) as 1 | 2;
+        const combates = loadVotes();
         const c = combates.find((x) => x.id === id);
         if (c) {
-          (c as Record<string, number>)[vote]++;
-          save(combates);
+          (c as Record<string, number>)[vote === 1 ? 'votes1' : 'votes2']++;
+          saveVotes(combates);
+          const picks = loadPicks();
+          picks[id] = vote;
+          savePicks(picks);
           fireConfetti();
           render();
         }
       });
     });
   }
+
+  document.getElementById('share-btn')?.addEventListener('click', () => {
+    const combates = loadVotes();
+    const picks = loadPicks();
+    const text = sharePredictions(combates, picks);
+    navigator.clipboard?.writeText(text).then(() => {
+      const btn = document.getElementById('share-btn');
+      if (btn) {
+        btn.textContent = '¡Copiado!';
+        setTimeout(() => { btn.textContent = 'Copiar predicción'; }, 2000);
+      }
+    }).catch(() => {});
+  });
+
+  document.getElementById('share-twitter-btn')?.addEventListener('click', () => {
+    const combates = loadVotes();
+    const picks = loadPicks();
+    const text = sharePredictions(combates, picks);
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  });
 
   render();
 </script>
